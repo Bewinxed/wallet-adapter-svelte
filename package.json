@@ -1,8 +1,16 @@
 {
     "name": "@bewinxed/wallet-adapter-svelte",
-    "version": "0.15.43",
-    "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/bewinxed/wallet-adapter",
+    "version": "0.15.44",
+    "author": "Bewinxed <bewinxed@gmail.com>",
+    "repository": "https://github.com/bewinxed/wallet-adapter-svelte",
+    "keywords": [
+        "solana",
+        "svelte",
+        "svelte 5",
+        "runes",
+        "wallet",
+        "adapter"
+    ],
     "license": "Apache-2.0",
     "publishConfig": {
         "access": "public"
