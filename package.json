@@ -1,0 +1,66 @@
+{
+    "name": "@bewinxed/wallet-adapter-svelte",
+    "version": "0.15.43",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/bewinxed/wallet-adapter",
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "dist",
+        "!dist/**/*.test.*",
+        "!dist/**/*.spec.*"
+    ],
+    "engines": {
+        "node": ">=18"
+    },
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "svelte": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
+        "test": "jest",
+        "dev": "vite dev",
+        "build": "vite build && npm run package",
+        "preview": "vite preview",
+        "package": "svelte-kit sync && svelte-package && publint",
+        "prepublishOnly": "npm run package",
+        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    },
+    "peerDependencies": {
+        "svelte": "^5.0.0-next.1"
+    },
+    "dependencies": {
+        "@bewinxed/wallet-standard-wallet-adapter-svelte": "^1.1.4",
+        "@solana-mobile/wallet-adapter-mobile": "^2.1.3",
+        "@solana/wallet-adapter-base": "^0.9.23",
+        "@solana/web3.js": "^1.95.2"
+    },
+    "devDependencies": {
+        "@sveltejs/adapter-auto": "^3.0.0",
+        "@sveltejs/kit": "^2.0.0",
+        "@sveltejs/package": "^2.0.0",
+        "@sveltejs/vite-plugin-svelte": "^3.0.0",
+        "@types/jest": "^28.1.8",
+        "jest": "^28.1.3",
+        "jest-environment-jsdom": "^28.1.3",
+        "jest-localstorage-mock": "^2.4.26",
+        "publint": "^0.1.9",
+        "shx": "^0.3.4",
+        "svelte": "^5.0.0-next.1",
+        "svelte-check": "^3.6.0",
+        "ts-jest": "^28.0.8",
+        "typescript": "^5.0.0",
+        "vite": "^5.0.11"
+    },
+    "svelte": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "type": "module"
+}
