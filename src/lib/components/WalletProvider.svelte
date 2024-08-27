@@ -1,21 +1,20 @@
 <script lang="ts">
-	import {
-		createDefaultAddressSelector,
-		createDefaultAuthorizationResultCache,
-		createDefaultWalletNotFoundHandler,
-		SolanaMobileWalletAdapter,
-		SolanaMobileWalletAdapterWalletName
-	} from '@solana-mobile/wallet-adapter-mobile';
-
+	// import {
+	// 	createDefaultAddressSelector,
+	// 	createDefaultAuthorizationResultCache,
+	// 	createDefaultWalletNotFoundHandler,
+	// 	SolanaMobileWalletAdapter,
+	// 	SolanaMobileWalletAdapterWalletName
+	// } from '@solana-mobile/wallet-adapter-mobile';
 	import { useStandardWalletAdapters } from '@bewinxed/wallet-standard-wallet-adapter-svelte';
-	import { WalletError, type Adapter, type WalletName } from '@solana/wallet-adapter-base';
+	import { WalletError, type Adapter, type WalletName } from '@bewinxed/wallet-adapter-base';
 	import { onMount, type Snippet } from 'svelte';
 	import getEnvironment, { Environment } from '../getEnvironment.js';
 	import getInferredChainFromEndpoint from '../getInferredClusterFromEndpoint.js';
 	import { useLocalStorage } from '../useLocalStorage.svelte.js';
 	import WalletProviderBase from './WalletProviderBase.svelte';
 	import { useSolana } from '../useSolana.svelte.js';
-	import type { PublicKey } from '@solana/web3.js';
+	import type { Address } from '@solana/web3.js';
 
 	let {
 		children,
@@ -34,7 +33,7 @@
 		/** You only need to change this if there's a conflict with context key */
 		localStorageKey?: string;
 		onerror?: (error: WalletError, adapter?: Adapter) => void;
-		onconnect?: (publicKey: PublicKey | null) => void;
+		onconnect?: (address: Address | null) => void;
 		ondisconnect?: () => void;
 	} = $props();
 
@@ -46,31 +45,35 @@
 	const isMobile = getEnvironment({ adapters, userAgentString }) === Environment.MOBILE_WEB;
 	let error = $state<string>();
 
-	const { connection, context } = useSolana();
+	const { rpc: connection, context } = useSolana();
 
-	const mobileWalletAdapter = $derived.by(() => {
-		if (!isMobile) {
-			return null;
-		}
+	// const mobileWalletAdapter = $derived.by(() => {
+	// 	if (!isMobile) {
+	// 		return null;
+	// 	}
 
-		const existingMobileWalletAdapter = adaptersWithStandardAdapters.find(
-			(adapter) => adapter.name === SolanaMobileWalletAdapterWalletName
-		);
+	// 	const existingMobileWalletAdapter = adaptersWithStandardAdapters.find(
+	// 		(adapter) => adapter.name === SolanaMobileWalletAdapterWalletName
+	// 	);
 
-		if (existingMobileWalletAdapter) {
-			return existingMobileWalletAdapter;
-		}
+	// 	if (existingMobileWalletAdapter) {
+	// 		return existingMobileWalletAdapter;
+	// 	}
 
-		return new SolanaMobileWalletAdapter({
-			addressSelector: createDefaultAddressSelector(),
-			appIdentity: {
-				uri: AppIdentityUri
-			},
-			authorizationResultCache: createDefaultAuthorizationResultCache(),
-			chain: getInferredChainFromEndpoint(connection?.rpcEndpoint),
-			onWalletNotFound: createDefaultWalletNotFoundHandler()
-		});
-	});
+	// 	return new SolanaMobileWalletAdapter({
+	// 		addressSelector: createDefaultAddressSelector(),
+	// 		appIdentity: {
+	// 			uri: AppIdentityUri
+	// 		},
+	// 		authorizationResultCache: createDefaultAuthorizationResultCache(),
+	// 		chain: getInferredChainFromEndpoint(connection?.endpoint),
+	// 		onWalletNotFound: createDefaultWalletNotFoundHandler()
+	// 	});
+	// });
+
+	// TODO: remove after refactoring solana mobile
+	const mobileWalletAdapter = null;
+	const SolanaMobileWalletAdapterWalletName = null;
 
 	const adaptersWithMobileWalletAdapter = $derived(
 		mobileWalletAdapter == null
@@ -165,7 +168,7 @@
 									'auto connected adapter',
 									adapter.name,
 									'connected public key',
-									adapter.publicKey?.toString()
+									adapter.address
 								);
 							}
 						} else {

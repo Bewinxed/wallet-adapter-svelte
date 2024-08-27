@@ -9,9 +9,9 @@ import {
 	type SignerWalletAdapterProps,
 	type WalletAdapterProps,
 	type WalletName
-} from '@solana/wallet-adapter-base';
-import type { PublicKey } from '@solana/web3.js';
-import { getContext, hasContext, setContext } from 'svelte';
+} from '@bewinxed/wallet-adapter-base';
+import { address, type Address } from '@solana/web3.js';
+import { getContext, hasContext, setContext, untrack } from 'svelte';
 
 export interface WalletType {
 	adapter: Adapter;
@@ -27,7 +27,7 @@ export class Wallet implements WalletType {
 	/**Whether the wallet is selected */
 	selected = $state(false);
 	/**The public key of the wallet (Don't depend on this for reactivity (For Now)) */
-	publicKey = $state(this.adapter?.publicKey ?? null);
+	address = $state<Address | null>(this.adapter?.address ?? null);
 	/**The ready state of the wallet */
 	readyState = $derived(this.adapter?.readyState ?? WalletReadyState.NotDetected);
 	/**The error handler for the wallet */
@@ -59,13 +59,13 @@ export class Wallet implements WalletType {
 
 		try {
 			await this.adapter.connect();
-			this.publicKey = this.adapter.publicKey;
+			this.address = this.adapter.address;
 			this.status = 'connected';
 			console.debug(
 				'connected adapter',
 				this.adapter.name,
 				'connected public key',
-				this.adapter.publicKey?.toString()
+				this.adapter.address
 			);
 		} catch (e) {
 			if (e instanceof WalletError) {
@@ -81,6 +81,7 @@ export class Wallet implements WalletType {
 			Object.getOwnPropertyDescriptor(this.adapter, 'autoConnect')?.value !== undefined
 		) {
 			return this.adapter.autoConnect;
+			// biome-ignore lint/style/noUselessElse: <explanation>
 		} else {
 			return this.connect;
 		}
@@ -97,7 +98,7 @@ export class Wallet implements WalletType {
 		try {
 			await this.adapter.disconnect();
 			this.status = 'disconnected';
-			this.publicKey = null;
+			this.address = null;
 		} catch (e) {
 			this.status = previousStatus;
 			if (e instanceof WalletError) throw this.handleError(e, this.adapter);
@@ -164,7 +165,7 @@ export interface WalletContextState {
 	wallets: WalletType[];
 	wallet: Wallet | null;
 
-	publicKey: PublicKey | null;
+	address: Address | null;
 
 	connecting: boolean;
 	connected: boolean;
@@ -178,7 +179,7 @@ export class WalletContext implements WalletContextState {
 	readonly wallets = $derived<Wallet[]>(
 		this.adapters.reduce<Wallet[]>((wallets, adapter) => {
 			console.debug('adapters', adapter.name, adapter.readyState, 'updated');
-			const wallet = new Wallet(adapter);
+			const wallet = untrack(() => new Wallet(adapter));
 			if (wallet.readyState !== WalletReadyState.Unsupported) {
 				wallets.push(wallet);
 			}
@@ -194,8 +195,8 @@ export class WalletContext implements WalletContextState {
 			: null
 	);
 
-	readonly publicKey = $derived<PublicKey | null>(
-		this.selectedAdapter ? this.selectedAdapter?.publicKey : null
+	readonly address = $derived<Address | null>(
+		this.selectedAdapter ? this.selectedAdapter?.address : null
 	);
 
 	readonly connected = $derived(this.wallet?.status === 'connected');

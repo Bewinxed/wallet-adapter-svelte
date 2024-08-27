@@ -46,16 +46,16 @@
         "svelte": "^5.0.0-next.1"
     },
     "dependencies": {
-        "@bewinxed/wallet-standard-wallet-adapter-svelte": "^1.1.4",
+        "@bewinxed/wallet-adapter-base": "^0.9.28",
+        "@bewinxed/wallet-standard-wallet-adapter-svelte": "^1.1.6",
         "@solana-mobile/wallet-adapter-mobile": "^2.1.3",
-        "@solana/wallet-adapter-base": "^0.9.23",
-        "@solana/web3.js": "^1.95.2"
+        "@solana/web3.js": "^2.0.0-rc.1"
     },
     "devDependencies": {
-        "@sveltejs/adapter-auto": "^3.0.0",
-        "@sveltejs/kit": "^2.0.0",
-        "@sveltejs/package": "^2.0.0",
-        "@sveltejs/vite-plugin-svelte": "^3.0.0",
+        "@sveltejs/adapter-auto": "^3.2.4",
+        "@sveltejs/kit": "^2.5.24",
+        "@sveltejs/package": "^2.3.4",
+        "@sveltejs/vite-plugin-svelte": "^3.1.2",
         "@types/jest": "^28.1.8",
         "jest": "^28.1.3",
         "jest-environment-jsdom": "^28.1.3",
@@ -63,13 +63,13 @@
         "prettier": "^3.3.3",
         "prettier-plugin-svelte": "^3.2.6",
         "prettier-plugin-tailwindcss": "^0.6.6",
-        "publint": "^0.1.9",
+        "publint": "^0.1.16",
         "shx": "^0.3.4",
-        "svelte": "^5.0.0-next.1",
-        "svelte-check": "^3.6.0",
+        "svelte": "^5.0.0-next.240",
+        "svelte-check": "^3.8.6",
         "ts-jest": "^28.0.8",
-        "typescript": "^5.0.0",
-        "vite": "^5.0.11"
+        "typescript": "^5.5.4",
+        "vite": "^5.4.2"
     },
     "svelte": "./dist/index.js",
     "types": "./dist/index.d.ts",

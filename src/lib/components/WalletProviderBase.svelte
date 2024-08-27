@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { Wallet } from '../useWallet.svelte.js';
 	import {
 		WalletReadyState,
 		type Adapter,
 		type WalletError,
 		type WalletName
-	} from '@solana/wallet-adapter-base';
-	import type { PublicKey } from '@solana/web3.js';
-	import { type Snippet } from 'svelte';
+	} from '@bewinxed/wallet-adapter-base';
+	import type { Address } from '@solana/web3.js';
+	import type { Snippet } from 'svelte';
 	import { useSolana } from '../useSolana.svelte.js';
+	import type { Wallet } from '../useWallet.svelte.js';
 
 	let {
 		children,
@@ -28,7 +28,7 @@
 		/** Called when the wallet adapter emits an error */
 		onerror?: (error: WalletError, adapter?: Adapter) => void;
 		/** Called when the wallet adapter emits a connect event */
-		onconnect?: (publicKey: PublicKey) => void;
+		onconnect?: (address: Address) => void;
 		/** Called when the wallet adapter emits a disconnect event */
 		ondisconnect?: () => void;
 		/** Called when a wallet is selected */

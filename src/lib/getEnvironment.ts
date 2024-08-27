@@ -1,5 +1,8 @@
-import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import { type Adapter, WalletReadyState } from '@solana/wallet-adapter-base';
+// import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
+import { type Adapter, WalletReadyState } from '@bewinxed/wallet-adapter-base';
+
+// TODO: remove after refactoring solana mobile
+const SolanaMobileWalletAdapterWalletName = null;
 
 export enum Environment {
 	DESKTOP_WEB,
